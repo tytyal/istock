@@ -37,6 +37,11 @@ public interface StockSpider {
      */
     static String formatStockCode(String code) {
         if (code.matches("^(sz|sh)\\d{6}$")) {
+//            System.out.println("sz|sh"+code);
+            return code;
+        }
+        else if(code.matches("^68.*")){
+//            System.out.println("68开头："+code);
             return code;
         }
         //5开头，沪市基金或权证 60开头上证

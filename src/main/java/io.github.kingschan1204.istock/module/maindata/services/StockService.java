@@ -16,6 +16,7 @@ import io.github.kingschan1204.istock.module.maindata.po.StockHisRoe;
 import io.github.kingschan1204.istock.module.maindata.repository.StockHisDividendRepository;
 import io.github.kingschan1204.istock.module.maindata.repository.StockRepository;
 import io.github.kingschan1204.istock.module.maindata.vo.StockVo;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -181,50 +182,21 @@ public class StockService {
         StringBuilder date = new StringBuilder();
 
         JSONObject data= jisiluSpilder.crawHisPbPePriceAndReports(code);
+        System.out.println("历史财务报表数据："+data.toJSONString());
         List<DBObject> list = new ArrayList<>();
         DBCollection hisdata = template.getCollection("stock_his_pe_pb");
         DBCollection report = template.getCollection("stock_report");
-
-        JSONArray hisdataJsons=data.getJSONArray("hisdata");
-        for (int i = 0; i <hisdataJsons.size() ; i++) {
-            JSONObject row = hisdataJsons.getJSONObject(i);
-            DBObject object = new BasicDBObject();
-            object.put("code",code);
-            object.put("date",row.getString("date"));
-            object.put("pb",row.getDouble("pb"));
-            object.put("pe",row.getDouble("pe"));
-            object.put("price",row.getDouble("price"));
-            //顺便拼成字符串
-            date.append("'").append(row.getString("date")).append("'");
-            price.append(row.getDouble("price"));
-            pb.append(row.getDouble("pb"));
-            pe.append(row.getDouble("pe"));
-            if(i!=hisdataJsons.size()-1){
-                price.append(",");
-                pb.append(",");
-                pe.append(",");
-                date.append(",");
-            }
-
-            list.add(object);
-            if ((i != 0 && i %1000 == 0)||i==hisdataJsons.size()-1){
-                hisdata.insert(list);
-                list.clear();
-            }
-        }
-
-
-        JSONArray reportJsons=data.getJSONArray("reports");
+        JSONArray reportJsons = data.getJSONArray("reports");
         list = new ArrayList<>();
-        for (int i = 0; i <reportJsons.size() ; i++) {
+        for (int i = 0; i < reportJsons.size(); i++) {
             JSONObject row = reportJsons.getJSONObject(i);
             DBObject object = new BasicDBObject();
-            object.put("code",code);
-            object.put("releaseDay",row.getString("releaseDay"));
-            object.put("link",row.getString("link"));
-            object.put("title",row.getString("title"));
+            object.put("code", code);
+            object.put("releaseDay", row.getString("releaseDay"));
+            object.put("link", row.getString("link"));
+            object.put("title", row.getString("title"));
             list.add(object);
-            if ((i != 0 && i %1000 == 0)||i==reportJsons.size()-1){
+            if ((i != 0 && i % 1000 == 0) || i == reportJsons.size() - 1) {
                 report.insert(list);
                 list.clear();
             }
@@ -237,6 +209,59 @@ public class StockService {
         result.add(pe.toString());
         result.add(reportJsons.toJSONString());
         return result;
+
+//        JSONArray hisdataJsons=data.getJSONArray("hisdata");
+//        for (int i = 0; i <hisdataJsons.size() ; i++) {
+//            JSONObject row = hisdataJsons.getJSONObject(i);
+//            DBObject object = new BasicDBObject();
+//            object.put("code",code);
+//            object.put("date",row.getString("date"));
+//            object.put("pb",row.getDouble("pb"));
+//            object.put("pe",row.getDouble("pe"));
+//            object.put("price",row.getDouble("price"));
+//            //顺便拼成字符串
+//            date.append("'").append(row.getString("date")).append("'");
+//            price.append(row.getDouble("price"));
+//            pb.append(row.getDouble("pb"));
+//            pe.append(row.getDouble("pe"));
+//            if(i!=hisdataJsons.size()-1){
+//                price.append(",");
+//                pb.append(",");
+//                pe.append(",");
+//                date.append(",");
+//            }
+//
+//            list.add(object);
+//            if ((i != 0 && i %1000 == 0)||i==hisdataJsons.size()-1){
+//                hisdata.insert(list);
+//                list.clear();
+//            }
+//        }
+//
+//
+//        JSONArray reportJsons=data.getJSONArray("reports");
+//        list = new ArrayList<>();
+//        for (int i = 0; i <reportJsons.size() ; i++) {
+//            JSONObject row = reportJsons.getJSONObject(i);
+//            DBObject object = new BasicDBObject();
+//            object.put("code",code);
+//            object.put("releaseDay",row.getString("releaseDay"));
+//            object.put("link",row.getString("link"));
+//            object.put("title",row.getString("title"));
+//            list.add(object);
+//            if ((i != 0 && i %1000 == 0)||i==reportJsons.size()-1){
+//                report.insert(list);
+//                list.clear();
+//            }
+//        }
+//        //价格》日期》pb》pe
+//        List<String> result = new ArrayList<>();
+//        result.add(price.toString());
+//        result.add(date.toString());
+//        result.add(pb.toString());
+//        result.add(pe.toString());
+//        result.add(reportJsons.toJSONString());
+//        return result;
     }
 
     /**

@@ -39,6 +39,13 @@ public class TencentSpider extends DefaultSpiderImpl{
                 json.put("code", item[2]);
                 //波动
                 json.put("fluctuate", item[32]);
+//                if(StockSpider.formatStockCode(item[2]) == null)
+//                {
+//                    System.out.println("抓取数据为："+rows.get(i));
+//                    System.out.println(item);
+//                    System.out.println("转换数据为空："+item[2]);
+//                    continue;
+//                }
                 json.put("type", StockSpider.formatStockCode(item[2]).replaceAll("\\d", ""));
                 //名称
                 json.put("name", item[1].replaceAll("\\s", ""));

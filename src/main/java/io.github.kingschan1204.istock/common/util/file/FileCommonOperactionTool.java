@@ -30,6 +30,12 @@ public class FileCommonOperactionTool {
         Connection.Response resultResponse = Jsoup.connect(url)
                 .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3346.9 Safari/537.36")
                 .referrer(referrer)
+                .cookie("v","AwIlhelR1ryK_8pgGg7ykotWUwNn0we0uNb6EUwbK-0gMqy1NGNW_YhnSrsf")
+                .cookie("Hm_lpvt_f79b64788a4e377c608617fba4c736e2","1616995034")
+                .cookie("Hm_lvt_f79b64788a4e377c608617fba4c736e2","1616994985,1616995034")
+                .cookie("Hm_lvt_78c58f01938e4d85eaf619eae71b4ed1","1616994983")
+                .cookie("Hm_lpvt_78c58f01938e4d85eaf619eae71b4ed1","1616995034")
+                .cookie("vvvv","1")
                 .ignoreContentType(true).execute();
         String defaultFileName="";
         if(resultResponse.statusCode()!=200){

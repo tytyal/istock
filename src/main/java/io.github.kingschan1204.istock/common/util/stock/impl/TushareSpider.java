@@ -78,6 +78,7 @@ public class TushareSpider  {
         json.put("params",JSON.parse("{'list_status':'L'}"));
         json.put("fields","ts_code,symbol,name,area,industry,fullname,market,list_status,list_date");
         String result = post(json);
+        System.out.println("获取到的参数列表："+result);
         JSONObject datas= JSON.parseObject(result);
         JSONArray items =datas.getJSONObject("data").getJSONArray("items");
         return items;

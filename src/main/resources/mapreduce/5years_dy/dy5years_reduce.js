@@ -1,4 +1,4 @@
-function(key, values) {
+function reduce(key, values) {
     var total=0;
     var index=0;
     var years="";

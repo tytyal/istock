@@ -36,7 +36,7 @@ public class StockCtrl {
 
 
     @ResponseBody
-    @RequestMapping(value = "/stock/refresh_code", method = RequestMethod.POST)
+    @RequestMapping(value = "/stock/refresh_code", method = RequestMethod.GET)
     public String initCode() {
         try {
             stockCodeInfoService.refreshCode();
@@ -48,7 +48,7 @@ public class StockCtrl {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/stock/refresh_company", method = RequestMethod.POST)
+    @RequestMapping(value = "/stock/refresh_company", method = RequestMethod.GET)
     public String initCompany() {
         try {
             stockCompanyService.refreshStockCompany();
